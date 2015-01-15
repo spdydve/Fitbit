@@ -8,6 +8,8 @@ class MyHTMLParser(HTMLParser):
         self.data_list = []
         self.i = 0
         self.j = 0
+    def handle_starttag(self, tag):
+        print 'need to fill in'
     def handle_data(self, data):
         if data.lower() == 'scoring summary':
             print "Scoring Summary"
