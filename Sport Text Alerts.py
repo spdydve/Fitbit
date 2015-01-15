@@ -8,28 +8,29 @@ class MyHTMLParser(HTMLParser):
         self.data_list = []
         self.i = 0
         self.j = 0
-    #def handle_starttag(self, tag, attrs):
-        #print "Encountered a start tag:", tag
-    #def handle_endtag(self, tag):
-        #print "Encountered an end tag :", tag
     def handle_data(self, data):
-        #print "Encountered some data  :", data
-        self.data_list.append(data)
         if data.lower() == 'scoring summary':
-            print "Found"
+            print "Scoring Summary"
             self.i = len(self.data_list)
-            self.data_list.append(data)
+            print self.i
         if data.lower() == 'team stat comparison':
-            print "Found 2"
+            print "Team Stat Comparison"
             self.j = len(self.data_list)
+            print self.j
+            
+        self.data_list.append(data)
     def get_data(self):
-        print self.i, self.j
-        return self.data_list()     
+        score_data = self.data_list[self.i:self.j]
+        return score_data
+        
+def data_collector(html):
+    parser = MyHTMLParser()
+    parser.feed(html)
+    return parser.get_data()
                                 
-# instantiate the parser and fed it some HTML
-parser = MyHTMLParser()
 
 page = urllib2.urlopen('http://scores.espn.go.com/ncf/boxscore?gameId=400610325')
 html = page.read()
 
-parser.feed(html)
+print data_collector(html)
+
